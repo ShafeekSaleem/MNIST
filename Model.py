@@ -3,15 +3,13 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation,  Dropout
 #from keras.layers import Input, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D
 #from keras.layers import AveragePooling2D, MaxPooling2D, Dropout, GlobalMaxPooling2D, GlobalAveragePooling2D
-from keras.utils import plot_model, to_categorical
-from IPython.display import SVG
-from keras.utils.vis_utils import model_to_dot
+from keras.utils import to_categorical
 import h5py
 
 
 #defining variables
-BATCH_SIZE = 64
-EPOCHS = 50
+BATCH_SIZE = 128
+EPOCHS = 30
 NUM_CLASSES = 10
 
 #loading and centoring the data
@@ -24,9 +22,7 @@ test_y = to_categorical(test_y, NUM_CLASSES)
 
 #defining the network
 model = Sequential()
-model.add(Dense(1024, activation='relu', input_shape=(train_x.shape[1],)))
-model.add(Dropout(0.5))
-model.add(Dense(512, activation='relu'))
+model.add(Dense(512, activation='relu', input_shape=(train_x.shape[1],)))
 model.add(Dropout(0.5))
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
@@ -53,11 +49,4 @@ print('**********************************')
 
 
 model.summary()
-
-#visualising as a graph and saving it to a .png file
-plot_model(model, to_file='Model.png')
-SVG(model_to_dot(model).create(prog='dot', format='svg'))
-
-
-#saving the model as .h5 file
 model.save('my_model.h5') 

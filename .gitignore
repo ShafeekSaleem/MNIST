@@ -5,3 +5,4 @@ datasets
 
 ## files
 *.npy
+*.h5
