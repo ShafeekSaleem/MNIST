@@ -4,6 +4,10 @@ from keras.layers import Dense, Activation,  Dropout
 #from keras.layers import Input, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D
 #from keras.layers import AveragePooling2D, MaxPooling2D, Dropout, GlobalMaxPooling2D, GlobalAveragePooling2D
 from keras.utils import plot_model
+from IPython.display import SVG
+from keras.utils.vis_utils import model_to_dot
+import h5py
+
 
 #defining variables
 BATCH_SIZE = 64
@@ -33,16 +37,25 @@ model.compile(optimizer='rmsprop',
               metrics=['accuracy'])
 
 # Train model
-model.fit(X_train, y_train,
+model.fit(train_x, train_y,
           batch_size=BATCH_SIZE,
           epochs=EPOCHS,
-          callbacks=[plot_losses],
           verbose=1,
-          validation_data=(X_test, y_test))
+          validation_data=(test_x, test_y))
 
-score = model.evaluate(X_test, y_test, verbose=0)
+score = model.evaluate(test_x, test_y, verbose=0)
 print('**********************************')
 print ("Loss = " + str(score[0]))
 print ("Test Accuracy = " + str(score[1]))
 print('**********************************')
 
+
+model.summary()
+
+#visualising as a graph and saving it to a .png file
+plot_model(model, to_file='Model.png')
+SVG(model_to_dot(model).create(prog='dot', format='svg'))
+
+
+#saving the model as .h5 file
+model.save('my_model.h5') 
