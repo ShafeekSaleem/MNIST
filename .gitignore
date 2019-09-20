@@ -1,0 +1,7 @@
+## dirs
+.vs
+*__pycache__
+datasets
+
+## files
+*.npy
